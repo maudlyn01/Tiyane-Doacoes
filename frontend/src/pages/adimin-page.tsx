@@ -9,22 +9,26 @@ const dados = [
 
 
 export const AdminPage = () => {
-  const [openRecipients, setopenRecipients] = useState(true);
-  const [openAgents, setOpenAgents] = useState(true);
+  const [openRecipients, setopenRecipients] = useState(false);
+  const [openAgents, setOpenAgents] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-100 transition-colors duration-500">
       {/* Navbar */}
       <header className="bg-white text-black shadow p-4 flex justify-between items-center mb-6 rounded">
-        <h1 className="text-xl font-bold">Painel do Administrador</h1>
+        <h1 className="text-xl  text-blue-500 font-bold">Painel do Administrador</h1>
         <button className="bg-red-600 text-white px-4 py-2 rounded">Logout</button>
       </header>
 
       {/* Cards de Resumo */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <ResumoCard titulo="Total de Doacoes" valor={1000} cor="bg-blue-500" />
-        <ResumoCard titulo="Entregas Confirmadas" valor={600} cor="bg-green-500" />
-        <ResumoCard titulo="Entregas Pendentes" valor={400} cor="bg-yellow-500" />
+      <div>
+        <h2 className="text-2xl font-semibold mb-4 text-blue-300">Resumo Geral</h2>
+        <p className="text-gray-300 mb-6">Aqui você pode visualizar o resumo das doações, entregas e agentes de campo.</p>
+      </div>
+      <div className="grid grid-cols-3 md:grid-cols-3 gap-4 mb-6">
+        <ResumoCard titulo="Total de Doacoes" corValor="text-blue-300" cor="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-100 transition-colors duration-500" valor={1000} />
+        <ResumoCard titulo="Entregas Confirmadas"corValor="text-yellow-300" cor="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-100 transition-colors duration-500" valor={600} />
+        <ResumoCard titulo="Entregas Pendentes" corValor="text-green-300" cor="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-100 transition-colors duration-500" valor={400} />
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 mb-6">
@@ -33,7 +37,7 @@ export const AdminPage = () => {
           <div className="bg-white p-4 rounded shadow text-black">
             <button
               onClick={() => setopenRecipients(false)}
-              className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
+              className="text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
             >
               ▼ Receptores de Doações
             </button>
@@ -59,8 +63,10 @@ export const AdminPage = () => {
     </tr>
   ))}
 </tbody>
+
           </div>
         ) : (
+          
           <div className="bg-white p-4 rounded shadow text-black">
             <button
               onClick={() => setopenRecipients(true)}
@@ -68,6 +74,9 @@ export const AdminPage = () => {
             >
               ▶ Receptores de Doações
             </button>
+            <div>
+              <p className="text-gray-500 mb-4">Lista de famílias que receberam doações com seus respectivos status.</p>
+            </div>
           </div>
         )}
 
@@ -80,7 +89,9 @@ export const AdminPage = () => {
             >
               ▼ Agentes de Campo
             </button>
-
+<div> 
+            <p className="text-gray-500 mb-4">Lista de agentes de campo com seus relatórios de entrega.</p>
+</div>
    <table className="min-w-full text-sm text-left">
   <thead className="bg-gray-100">
     <tr>
