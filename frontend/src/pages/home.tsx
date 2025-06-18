@@ -1,119 +1,135 @@
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  
-  
   CardContent,
-  
-  
   CardDescription,
-
   CardHeader,
   CardTitle,
-} from "../components/ui/card"
+} from "../components/ui/card";
+import { Locate, Users, Eye, Zap } from "lucide-react";
+
 export const Home = () => {
-  return <div className="min-h-screen flex items-center flex-col bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-100 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 dark:text-gray-100 selection:bg-teal-500 selection:text-white transition-colors duration-500">
-    <div ><h1 className="text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-cyan-400 via-blue-600 to-pink-400 text-transparent bg-clip-text">Tiyane Doação</h1>
-    </div>
-    <p className="text-gray-400 dark:text-gray-400">
-          Doe redes mosquiteiras, alimentos e roupas para quem mais precisa. 
-          
+  return (
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-900 via-purple-900 text-gray-100 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 dark:text-gray-100 selection:bg-teal-500 selection:text-white transition-colors duration-500">
+      
+      <div className="text-center mt-10">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-cyan-400 via-blue-600 to-pink-400 text-transparent bg-clip-text">
+          Tiyane Doação
+        </h1>
+        <p className="text-gray-400">
+          Doe redes mosquiteiras, alimentos e roupas para quem mais precisa.
         </p>
-        <p className="text-gray-400 dark:text-gray-400">Sua ajuda direta faz uma enorme diferença na vida de muitas famílias.</p>
-        <Button
-          className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-8 rounded-full text-lg shadow-lg transition-colors duration-300"
-        >
+        <p className="text-gray-400 mb-6">
+          Sua ajuda direta faz uma enorme diferença na vida de muitas famílias.
+        </p>
+        <Button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-8 rounded-full text-lg shadow-lg transition-colors duration-300">
           Painel administrativo
         </Button>
-        <div className="w-full px-4 mt-10">
-        
-        <h1 className="flex justify-center font-bold text-5xl">Como funciona?</h1>
-
-        
-        <div className="h-90 mt-6 grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
-          
-          <Card>
-  <CardHeader>
-    <CardTitle className="flex justify-center text-4xl" >Rasteamento</CardTitle>
-    <CardDescription>Acompanha cada etapa desde a coleta ate a entrega final ao destinatario</CardDescription>
-  </CardHeader>
-  
-</Card>
-    <Card>
-  <CardHeader>
-    <CardTitle className="flex flex-col justify-center text-4xl" ><div>Impacto</div>  <div>comunitario</div> </CardTitle>
-    <CardDescription>Acompanha cada etapa desde a coleta ate a entrega final ao destinatario</CardDescription>
-  </CardHeader>
-  
-</Card>
-    <Card>
-  <CardHeader>
-    <CardTitle className="flex justify-center text-4xl" >Rasteamento</CardTitle>
-    <CardDescription>Acompanha cada etapa desde a coleta ate a entrega final ao destinatario</CardDescription>
-  </CardHeader>
-  
-</Card>
-    <Card>
-  <CardHeader>
-    <CardTitle className="flex justify-center text-4xl" >Rápido e Facil</CardTitle>
-    <CardDescription>Acompanha cada etapa desde a coleta ate a entrega final ao destinatario</CardDescription>
-  </CardHeader>
-  
-</Card>
-          
-        </div>
       </div>
-    
-        <div className="w-full px-4 mt-10">
-        
-    <h1 className="flex justify-center font-bold text-5xl">Impacto Visualizado</h1>
-        
-        <div className="h-90 mt-6 grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
-    <Card>
-  <CardHeader>
-    <CardContent>
-      <img src="/src/images/download (1).jpg" alt="" className="rounded-xl h-45" />
-    </CardContent>
-    <CardTitle className="text-center text-2xl">Productos de Higiene</CardTitle>
-    <CardDescription className="text-center ">Acreditamos que acesso á higiene é um direito de todos por isso promovemos Saúde e bem estar através de productos de higiene essenciais</CardDescription>
-  </CardHeader>
-  
-</Card>
-    <Card>
-  <CardHeader>
-    <CardContent>
-      <img src="/src/images/134452650_672099390127033_3902332876617489759_n.jpg" alt="" className="rounded-xl" />
-      <CardTitle className="text-center text-2xl">Vestuario</CardTitle>
-    </CardContent>
-    <CardDescription className="px-6">Oferecendo conforto e dignidade através de roupas adequadas para todas as idades</CardDescription>
-  </CardHeader>
-  
-</Card>
-    <Card>
-  <CardHeader>
-    <CardContent>
-      <img src="/src/images/images (3).jpg" alt="" className="rounded-xl" />
-    </CardContent>
-    <CardTitle className="text-center text-2xl">Redes que Salvam Vidas</CardTitle>
-    <CardDescription className="px-6">Protegendo crianças da malária e outras doenças transmitidas por mosquitos.</CardDescription>
-  </CardHeader>
-  
-</Card>
 
-    <Card>
-  <CardHeader>
-    <CardContent>
-      <img src="/src/images/images.jpg" alt="" className="rounded-xl" />
-    </CardContent>
-    <CardTitle className="text-center text-2xl">Alimentação e Nutrientes</CardTitle>
-    <CardDescription className="px-3">Garantindo segurança alimentar e nutrição para familias em vulnerabilidade.</CardDescription>
-  </CardHeader>
-  
-</Card>
-      
+      <section className="w-full mt-16">
+        <h2 className="text-center font-bold text-3xl sm:text-4xl md:text-5xl mb-8">
+          Como funciona?
+        </h2>
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              title: "Rastreamento",
+              desc: "Acompanha cada etapa desde a coleta até a entrega final ao destinatário.",
+              icon: <Locate className="w-10 h-10 text-teal-200 mb-4 mx-auto" />,
+              hoverColor: "from-indigo-700 to-purple-700",
+            },
+            {
+              title: "Impacto comunitário",
+              desc: "Transformamos comunidades com cada doação realizada.",
+              icon: <Users className="w-10 h-10 text-teal-200 mb-4 mx-auto" />,
+              hoverColor: "from-fuchsia-700 to-pink-700",
+            },
+            {
+              title: "Transparência",
+              desc: "Você sabe exatamente onde sua doação está sendo usada.",
+              icon: <Eye className="w-10 h-10 text-teal-200 mb-4 mx-auto" />,
+              hoverColor: "from-blue-700 to-sky-700",
+            },
+            {
+              title: "Rápido e Fácil",
+              desc: "Um processo simples para fazer o bem de forma eficiente.",
+              icon: <Zap className="w-10 h-10 text-teal-200 mb-4 mx-auto" />,
+              hoverColor: "from-teal-700 to-green-700",
+            },
+          ].map((item, index) => (
+            <Card
+              key={index}
+              className={`rounded-xl text-white shadow-md transform transition duration-300 hover:scale-105 hover:bg-gradient-to-r ${item.hoverColor}`}
+              style={{
+                background: "linear-gradient(to right, #4B0082, #6A5ACD)",
+              }}
+            >
+              <CardHeader className="text-center flex flex-col items-center">
+                {item.icon}
+                <CardTitle className="text-2xl sm:text-3xl">{item.title}</CardTitle>
+                <CardDescription className="text-sm sm:text-base px-2 mt-2 text-white/90">
+                  {item.desc}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          ))}
         </div>
-        
-      </div>
-    
+      </section>
+
+      <section className="w-full mt-20 mb-16">
+        <h2 className="text-center font-bold text-3xl sm:text-4xl md:text-5xl mb-8">
+          Impacto Visualizado
+        </h2>
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              img: "/src/images/download (1).jpg",
+              title: "Produtos de Higiene",
+              desc: "Acreditamos que acesso à higiene é um direito de todos. Promovemos saúde e bem-estar com itens essenciais.",
+            },
+            {
+              img: "/src/images/134452650_672099390127033_3902332876617489759_n.jpg",
+              title: "Vestuário",
+              desc: "Oferecendo conforto e dignidade com roupas adequadas para todas as idades.",
+            },
+            {
+              img: "/src/images/images (3).jpg",
+              title: "Redes que Salvam Vidas",
+              desc: "Protegendo crianças da malária e outras doenças transmitidas por mosquitos.",
+            },
+            {
+              img: "/src/images/images.jpg",
+              title: "Alimentação e Nutrientes",
+              desc: "Garantindo segurança alimentar e nutrição para famílias em vulnerabilidade.",
+            },
+          ].map((item, index) => (
+            <Card
+              key={index}
+              className="rounded-xl text-white shadow-md"
+              style={{
+                background: "linear-gradient(to right, #4B0082, #6A5ACD)",
+              }}
+            >
+              <CardHeader className="flex flex-col items-center">
+                <CardContent className="w-full flex justify-center">
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className="rounded-xl w-full h-48 object-cover"
+                  />
+                </CardContent>
+                <CardTitle className="text-center text-xl sm:text-2xl mt-4">
+                  {item.title}
+                </CardTitle>
+                <CardDescription className="text-center text-sm sm:text-base px-4 mt-2 text-white/90">
+                  {item.desc}
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
+      </section>
     </div>
-}
+  );
+};
