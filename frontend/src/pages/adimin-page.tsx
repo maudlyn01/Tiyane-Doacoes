@@ -2,13 +2,32 @@ import ResumoCard from "./resumoCard";
 import { useState, useEffect } from "react";
 import TabelaEntregas from "./tabledeliry";
 import { getAllIntermediates, type Intermediate } from "../services/intermediate";
+import { getAllCommunities, type community } from "../services/community";
 
 export const AdminPage = () => {
   const [openRecipients, setopenRecipients] = useState(false);
   const [openAgents, setOpenAgents] = useState(false);
+  const [comunidades, setComunidades] = useState<community[]>([]);
   const [intermediates, setIntermediates] = useState<Intermediate[]>([]);
 
-  // Só busca quando abrir o accordion dos agentes
+  useEffect(() => {
+    if (openRecipients && comunidades.length === 0) {
+      getAllCommunities().then((data: any) => {
+        // Log para depuração
+        console.log("Dado recebido da API de comunidades:", data);
+
+        // Caso a resposta venha como { communities: [...] }
+        if (Array.isArray(data)) {
+          setComunidades(data);
+        } else if (data && Array.isArray((data as { communities?: community[] }).communities)) {
+          setComunidades((data as { communities: community[] }).communities);
+        } else {
+          setComunidades([]);
+        }
+      });
+    }
+  }, [openRecipients, comunidades.length]);
+
   useEffect(() => {
     if (openAgents) {
       const fetchData = async () => {
@@ -40,30 +59,33 @@ export const AdminPage = () => {
 
       <div className="grid md:grid-cols-2 gap-6 mb-6">
         {/* Accordion - Receptores */}
-        {openRecipients ? (
-          <div className="bg-white p-4 rounded shadow text-black">
-            <button
-              onClick={() => setopenRecipients(false)}
-              className="text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
-            >
-              ▼ Receptores de Doações
-            </button>
-            {/* Atualize aqui se quiser listar outros dados de receptores */}
-            <p className="text-gray-500 mb-4">Lista de famílias que receberam doações com seus respectivos status.</p>
-          </div>
-        ) : (
-          <div className="bg-white p-4 rounded shadow text-black">
-            <button
-              onClick={() => setopenRecipients(true)}
-              className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
-            >
-              ▶ Receptores de Doações
-            </button>
+        <div className="bg-white p-4 rounded shadow text-black">
+          <button
+            onClick={() => setopenRecipients(!openRecipients)}
+            className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
+          >
+            {openRecipients ? "▼ Receptores de Doações" : "▶ Receptores de Doações"}
+          </button>
+
+          {openRecipients && (
             <div>
-              <p className="text-gray-500 mb-4">Lista de famílias que receberam doações com seus respectivos status.</p>
+              <p className="text-gray-500 mb-4">
+                Lista de comunidades que receberam doações:
+              </p>
+              {comunidades.length === 0 ? (
+                <p>Nenhuma comunidade encontrada ou carregando...</p>
+              ) : (
+                <ul className="list-disc pl-6">
+                  {comunidades.map((comunidade) => (
+                    <li key={comunidade._id || comunidade.name}>
+                      <strong>{comunidade.name}</strong> - {comunidade.province}, {comunidade.district} (População: {comunidade.population})
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Accordion - Agentes */}
         {openAgents ? (
@@ -89,7 +111,7 @@ export const AdminPage = () => {
               </thead>
               <tbody>
                 {intermediates.map((item) => (
-                  <tr key={item.id} className="border-t">
+                  <tr key={item.id}>
                     <td className="p-2">{item.name}</td>
                     <td className="p-2">{item.phone}</td>
                     <td className="p-2">{item.email}</td>
@@ -116,12 +138,6 @@ export const AdminPage = () => {
             </button>
           </div>
         )}
-      </div>
-
-      {/* Tabela de Entregas */}
-      <div className="bg-white p-4 rounded shadow text-black">
-        <h2 className="text-lg font-semibold mb-2">Histórico de Entregas</h2>
-        <TabelaEntregas />
       </div>
     </div>
   );
