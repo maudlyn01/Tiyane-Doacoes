@@ -10,7 +10,7 @@ import { authenticationToken, authorizeRole } from "../middleware/auth-middlewar
 
 const router = Router()
 
-router.use(authenticationToken)
+//router.use(authenticationToken)
 
 router.get("/", getAllCommunities)
 router.get("/:id", getCommunityById)

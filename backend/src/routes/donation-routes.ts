@@ -11,7 +11,7 @@ import { authenticationToken, authorizeRole } from "../middleware/auth-middlewar
 
 const donationRouter = Router()
 
-donationRouter.use(authenticationToken)
+//donationRouter.use(authenticationToken)
 
 donationRouter.get("/", getAllDonations)
 donationRouter.get("/tracking/:trackingCode", getDonationByTrackingCode)
