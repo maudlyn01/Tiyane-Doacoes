@@ -1,6 +1,5 @@
 import ResumoCard from "./resumoCard";
 import { useState, useEffect } from "react";
-import TabelaEntregas from "./tabledeliry";
 import { getAllIntermediates, type Intermediate } from "../services/intermediate";
 import { getAllCommunities, type community } from "../services/community";
 
@@ -10,23 +9,23 @@ export const AdminPage = () => {
   const [comunidades, setComunidades] = useState<community[]>([]);
   const [intermediates, setIntermediates] = useState<Intermediate[]>([]);
 
-  useEffect(() => {
-    if (openRecipients && comunidades.length === 0) {
-      getAllCommunities().then((data: any) => {
-        // Log para depuração
-        console.log("Dado recebido da API de comunidades:", data);
+useEffect(() => {
+  if (openRecipients && comunidades.length === 0) {
+    getAllCommunities().then((data: any) => {
+      // Log para depuração
+      console.log("Dado recebido da API de comunidades:", data);
 
-        // Caso a resposta venha como { communities: [...] }
-        if (Array.isArray(data)) {
-          setComunidades(data);
-        } else if (data && Array.isArray((data as { communities?: community[] }).communities)) {
-          setComunidades((data as { communities: community[] }).communities);
-        } else {
-          setComunidades([]);
-        }
-      });
-    }
-  }, [openRecipients, comunidades.length]);
+      // Lógica de verificação e definição dos dados
+      if (Array.isArray(data)) {
+        setComunidades(data);
+      } else if (data && Array.isArray((data as { communities?: community[] }).communities)) {
+        setComunidades((data as { communities: community[] }).communities);
+      } else {
+        setComunidades([]);
+      }
+    });
+  }
+}, [openRecipients, comunidades.length]);
 
   useEffect(() => {
     if (openAgents) {
@@ -75,69 +74,89 @@ export const AdminPage = () => {
               {comunidades.length === 0 ? (
                 <p>Nenhuma comunidade encontrada ou carregando...</p>
               ) : (
-                <ul className="list-disc pl-6">
-                  {comunidades.map((comunidade) => (
-                    <li key={comunidade._id || comunidade.name}>
-                      <strong>{comunidade.name}</strong> - {comunidade.province}, {comunidade.district} (População: {comunidade.population})
-                    </li>
-                  ))}
-                </ul>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead>
+                      <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                        <th className="py-3 px-6 text-left">Nome</th>
+                        <th className="py-3 px-6 text-left">Província</th>
+                        <th className="py-3 px-6 text-left">Distrito</th>
+                        <th className="py-3 px-6 text-right">População</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-gray-700 text-sm">
+                      {comunidades.map((comunidade) => (
+                        <tr
+                          key={comunidade._id || comunidade.name}
+                          className="border-b border-gray-200 hover:bg-gray-50"
+                        >
+                          <td className="py-3 px-6 text-left whitespace-nowrap font-semibold">
+                            {comunidade.name}
+                          </td>
+                          <td className="py-3 px-6 text-left">{comunidade.province}</td>
+                          <td className="py-3 px-6 text-left">{comunidade.district}</td>
+                          <td className="py-3 px-6 text-right">{comunidade.population}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           )}
         </div>
 
         {/* Accordion - Agentes */}
-        {openAgents ? (
-          <div className="bg-white p-4 rounded shadow text-black">
-            <button
-              onClick={() => setOpenAgents(false)}
-              className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
-            >
-              ▼ Agentes de Campo
-            </button>
-            <div>
-              <p className="text-gray-500 mb-4">Lista de agentes de campo e suas informações.</p>
-            </div>
-            <table className="min-w-full text-sm text-left">
-              <thead>
-                <tr>
-                  <th className="p-2">Nome</th>
-                  <th className="p-2">Telefone</th>
-                  <th className="p-2">Email</th>
-                  <th className="p-2">Províncias</th>
-                  <th className="p-2">Ativo</th>
-                </tr>
-              </thead>
-              <tbody>
-                {intermediates.map((item) => (
-                  <tr key={item.id}>
-                    <td className="p-2">{item.name}</td>
-                    <td className="p-2">{item.phone}</td>
-                    <td className="p-2">{item.email}</td>
-                    <td className="p-2">{item.assignedProvinces.join(", ")}</td>
-                    <td className="p-2">
-                      {item.isActive ? (
-                        <span className="bg-green-200 text-green-800 px-2 py-1 rounded">Sim</span>
-                      ) : (
-                        <span className="bg-red-200 text-red-800 px-2 py-1 rounded">Não</span>
-                      )}
-                    </td>
+        <div className="bg-white p-4 rounded shadow text-black">
+          {openAgents ? (
+            <>
+              <button
+                onClick={() => setOpenAgents(false)}
+                className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
+              >
+                ▼ Agentes de Campo
+              </button>
+              <div>
+                <p className="text-gray-500 mb-4">Lista de agentes de campo e suas informações.</p>
+              </div>
+              <table className="min-w-full text-sm text-left">
+                <thead>
+                  <tr>
+                    <th className="p-2">Nome</th>
+                    <th className="p-2">Telefone</th>
+                    <th className="p-2">Email</th>
+                    <th className="p-2">Províncias</th>
+                    <th className="p-2">Ativo</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="bg-white p-4 rounded shadow text-black">
+                </thead>
+                <tbody>
+                  {intermediates.map((item) => (
+                    <tr key={item.id}>
+                      <td className="p-2">{item.name}</td>
+                      <td className="p-2">{item.phone}</td>
+                      <td className="p-2">{item.email}</td>
+                      <td className="p-2">{item.assignedProvinces.join(", ")}</td>
+                      <td className="p-2">
+                        {item.isActive ? (
+                          <span className="bg-green-200 text-green-800 px-2 py-1 rounded">Sim</span>
+                        ) : (
+                          <span className="bg-red-200 text-red-800 px-2 py-1 rounded">Não</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </>
+          ) : (
             <button
               onClick={() => setOpenAgents(true)}
               className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
             >
               ▶ Agentes de Campo
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
