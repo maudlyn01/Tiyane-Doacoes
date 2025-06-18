@@ -14,7 +14,7 @@ export const Home = () => {
       
       <div className="text-center mt-10">
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-cyan-400 via-blue-600 to-pink-400 text-transparent bg-clip-text">
-          Tiyane Doação
+          Tiyane Doações
         </h1>
         <p className="text-gray-400">
           Doe redes mosquiteiras, alimentos e roupas para quem mais precisa.
