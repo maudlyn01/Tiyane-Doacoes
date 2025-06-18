@@ -6,7 +6,7 @@ import {
   updateCommunity,
   deleteCommunity,
 } from "../controllers/community-controller"
-import { authenticationToken, authorizeRole } from "../middleware/auth-middleware"
+//import { authenticationToken} from "../middleware/auth-middleware"
 
 const router = Router()
 

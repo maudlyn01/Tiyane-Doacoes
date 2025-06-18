@@ -27,7 +27,24 @@ export const AdminPage = () => {
   const [isCommunityModalOpen, setIsCommunityModalOpen] = useState(false)
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false)
 
-  // Só busca quando abrir o accordion dos agentes
+useEffect(() => {
+  if (openRecipients && communities.length === 0) {
+    getAllCommunities().then((data: any) => {
+      // Log para depuração
+      console.log("Dado recebido da API de comunidades:", data);
+
+      // Lógica de verificação e definição dos dados
+      if (Array.isArray(data)) {
+        setCommunities(data);
+      } else if (data && Array.isArray((data as { communities?: Community[] }).communities)) {
+        setCommunities((data as { communities: Community[] }).communities);
+      } else {
+        setCommunities([]);
+      }
+    });
+  }
+}, [openRecipients, communities.length]);
+
   useEffect(() => {
     if (openAgents) {
       const fetchData = async () => {
@@ -145,64 +162,55 @@ export const AdminPage = () => {
         />
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6 mb-6">
-        {/* Accordion - Comunidades */}
-        {openCommunities ? (
-          <div className="bg-white p-4 rounded shadow text-black">
-            <button
-              onClick={() => setOpenCommunities(false)}
-              className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
-            >
-              ▼ Comunidades
-            </button>
+      <div className="grid md:grid-cols-2 gap-6 mb-6">
+        {/* Accordion - Receptores */}
+        <div className="bg-white p-4 rounded shadow text-black">
+          <button
+            onClick={() => setopenRecipients(!openRecipients)}
+            className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
+          >
+            {openRecipients ? "▼ Receptores de Doações" : "▶ Receptores de Doações"}
+          </button>
+
+          {openRecipients && (
             <div>
-              <p className="text-gray-500 mb-4">Lista de comunidades cadastradas no sistema.</p>
+              <p className="text-gray-500 mb-4">
+                Lista de comunidades que receberam doações:
+              </p>
+              {communities.length === 0 ? (
+                <p>Nenhuma comunidade encontrada ou carregando...</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                    <thead>
+                      <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
+                        <th className="py-3 px-6 text-left">Nome</th>
+                        <th className="py-3 px-6 text-left">Província</th>
+                        <th className="py-3 px-6 text-left">Distrito</th>
+                        <th className="py-3 px-6 text-right">População</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-gray-700 text-sm">
+                      {communities.map((comunidade) => (
+                        <tr
+                          key={comunidade._id || comunidade.name}
+                          className="border-b border-gray-200 hover:bg-gray-50"
+                        >
+                          <td className="py-3 px-6 text-left whitespace-nowrap font-semibold">
+                            {comunidade.name}
+                          </td>
+                          <td className="py-3 px-6 text-left">{comunidade.province}</td>
+                          <td className="py-3 px-6 text-left">{comunidade.district}</td>
+                          <td className="py-3 px-6 text-right">{comunidade.population}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-sm text-left">
-                <thead>
-                  <tr>
-                    <th className="p-2">Nome</th>
-                    <th className="p-2">Província</th>
-                    <th className="p-2">Distrito</th>
-                    <th className="p-2">População</th>
-                    <th className="p-2">Necessidades</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {communities.map((community) => (
-                    <tr key={community.id} className="border-t">
-                      <td className="p-2">{community.name}</td>
-                      <td className="p-2">{community.province}</td>
-                      <td className="p-2">{community.district}</td>
-                      <td className="p-2">{community.population.toLocaleString()}</td>
-                      <td className="p-2">
-                        <div className="text-xs">
-                          <div>Redes: {community.needsAssessment.mosquitoNets}</div>
-                          <div>Roupas: {community.needsAssessment.clothing}</div>
-                          <div>Comida: {community.needsAssessment.food}</div>
-                          <div>Higiene: {community.needsAssessment.hygiene}</div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ) : (
-          <div className="bg-white p-4 rounded shadow text-black">
-            <button
-              onClick={() => setOpenCommunities(true)}
-              className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
-            >
-              ▶ Comunidades
-            </button>
-            <div>
-              <p className="text-gray-500 mb-4">Lista de comunidades cadastradas no sistema.</p>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Accordion - Agentes */}
         {openAgents ? (

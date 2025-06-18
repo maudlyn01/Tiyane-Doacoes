@@ -1,5 +1,5 @@
-// Tipos
 export interface Community {
+  _id: string
   id: string
   name: string
   province: string
@@ -15,7 +15,7 @@ export interface Community {
   createdAt?: Date
   updatedAt?: Date
 }
-
+ 
 const API_BASE_URL = (import.meta as any).env.VITE_API_URL || "http://localhost:3001"
 
 export const getAllCommunities = async (): Promise<Community[]> => {
