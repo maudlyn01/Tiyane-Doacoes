@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-@import "tailwindcss";
-=======
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -121,4 +119,4 @@
     @apply bg-background text-foreground;
   }
 }
->>>>>>> 507c05e733f1bbf42d2d1c52dcefac040b7d46bb
+
