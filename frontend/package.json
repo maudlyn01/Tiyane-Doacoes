@@ -10,16 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
     "@phosphor-icons/react": "^2.1.10",
->>>>>>> ngovene
-    "@tailwindcss/vite": "^4.1.10",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.2",
-=======
+
+
     "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/vite": "^4.1.10",
     "class-variance-authority": "^0.7.1",
@@ -29,7 +23,6 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2",
     "tailwind-merge": "^3.3.1",
->>>>>>> 507c05e733f1bbf42d2d1c52dcefac040b7d46bb
     "tailwindcss": "^4.1.10"
   },
   "devDependencies": {
