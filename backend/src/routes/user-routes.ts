@@ -6,11 +6,11 @@ import { login, register } from "../controllers/auth-controller"
 const userRouter = Router()
 
 
-userRouter.get("/", authenticationToken, getAllUsers)
-userRouter.get("/:id", authenticationToken,getUserById)
+userRouter.get("/", getAllUsers)
+userRouter.get("/:id",getUserById)
 userRouter.post("/register",register)
 userRouter.post("/login",login)
-userRouter.put("/:id", authenticationToken, updateUser)
-userRouter.delete("/:id", authenticationToken, deleteUser)
+userRouter.put("/:id", updateUser)
+userRouter.delete("/:id", deleteUser)
 
 export default userRouter;

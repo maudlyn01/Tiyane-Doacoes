@@ -10,12 +10,12 @@ import { authenticationToken, authorizeRole } from "../middleware/auth-middlewar
 
 const intermediateRouter = Router()
 
-intermediateRouter.use(authenticationToken)
+//intermediateRouter.use(authenticationToken)
 
 intermediateRouter.get("/", getAllIntermediates)
 intermediateRouter.get("/:id", getIntermediateById)
 intermediateRouter.post("/",  createIntermediate)
-intermediateRouter.put("/:id", authorizeRole("admin"), updateIntermediate)
-intermediateRouter.delete("/:id", authorizeRole("admin"), deleteIntermediate)
+intermediateRouter.put("/:id", updateIntermediate)
+intermediateRouter.delete("/:id", deleteIntermediate)
 
 export default intermediateRouter

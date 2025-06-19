@@ -1,54 +1,95 @@
-# React + TypeScript + Vite
+# Hackathon - Sistema de Gestão de Doações
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este projeto é um sistema completo para gestão de doações, intermediários, comunidades e agentes de campo, desenvolvido para um hackathon.
 
-Currently, two official plugins are available:
+## Estrutura
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **backend/**: API Node.js/Express com MongoDB
+- **frontend/**: Aplicação React + Vite + TypeScript
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Como rodar o projeto
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Pré-requisitos
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Node.js 18+
+- npm
+- MongoDB rodando localmente (ou altere a string de conexão)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+### Backend
+
+1. Instale as dependências:
+    ```sh
+    cd backend
+    npm install
+    ```
+
+2. Configure as variáveis de ambiente em `.env` (exemplo):
+    ```
+    MONGODB_URI=mongodb://localhost:27017/hackathon
+    JWT_SECRET=sua_chave_secreta
+    PORT=3001
+    ```
+
+3. Inicie o servidor:
+    ```sh
+    npm run dev
+    ```
+
+---
+
+### Frontend
+
+1. Instale as dependências:
+    ```sh
+    cd frontend
+    npm install
+    ```
+
+2. Configure o arquivo `.env`:
+    ```
+    VITE_API_URL=http://localhost:3001
+    ```
+
+3. Inicie o frontend:
+    ```sh
+    npm run dev
+    ```
+
+4. **Token JWT:**  
+   Enquanto não há tela de login, salve o token manualmente no navegador:
+    - Abra o console do navegador (F12)
+    - Rode:
+      ```js
+      localStorage.setItem("token", "SEU_TOKEN_AQUI")
+      ```
+    - Substitua `"SEU_TOKEN_AQUI"` pelo token recebido do backend.
+
+---
+
+## Principais Funcionalidades
+
+- Cadastro, listagem, edição e remoção de intermediários
+- Cadastro e visualização de comunidades
+- Cadastro e acompanhamento de doações
+- Painel administrativo com filtros e resumos
+- Autenticação JWT (token salvo no localStorage)
+
+---
+
+## Tecnologias
+
+- **Backend:** Node.js, Express, MongoDB, Mongoose, JWT
+- **Frontend:** React, Vite, TypeScript, TailwindCSS, Axios
+
+---
+
+## Observações
+
+- O projeto está em desenvolvimento e pode conter endpoints ou telas em construção.
+- Para dúvidas ou sugestões, abra uma issue ou entre em contato.
+
+---

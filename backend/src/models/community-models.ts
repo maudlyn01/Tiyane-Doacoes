@@ -8,7 +8,8 @@ const communitySchema = new Schema<CommunityProps>(
     district: {type: String,required: [true, "Distrito é obrigatório"],trim: true,},
     population: {type: Number,required: [true, "População é obrigatória"],min: [1, "População deve ser maior que 0"],},
     leaderId: {type: String,required: [true, "ID do líder é obrigatório"],},
-    needsAssessment: {mosquitoNets: {type: Number,required: true, min: 0,},
+    needsAssessment: {
+      mosquitoNets: {type: Number,required: true, min: 0,},
       clothing: {
         type: Number,
         required: true,
