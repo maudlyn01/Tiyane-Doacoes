@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { About,AdminPage,Home,Login } from "./pages/index";
+import {DeliveryConfirmation} from "./pages/confirmation"
 import { MainLayout } from "./layout/main-layout";
 
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
         path: "/login",
         element: <Login />,
       },
+      {
+        path:"/intermediate",
+        element:<DeliveryConfirmation/>
+      }
     ],
   },
 ]);

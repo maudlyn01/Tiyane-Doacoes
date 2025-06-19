@@ -38,7 +38,9 @@ export const getAllDonations = async (): Promise<Donation[]> => {
 }
 
 
-export const createDonation = async (data: Omit<Donation, "id" | "createdAt" | "updatedAt">): Promise<Donation> => {
+export const createDonation = async (
+  data: Omit<Donation, "id" | "createdAt" | "updatedAt">
+): Promise<Donation> => {
   try {
     const response = await fetch(`${API_BASE_URL}/donation`, {
       method: "POST",
@@ -46,15 +48,21 @@ export const createDonation = async (data: Omit<Donation, "id" | "createdAt" | "
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    })
+    });
 
-    if (!response.ok) throw new Error("Erro ao criar doação")
-    return await response.json()
+    if (!response.ok) {
+      const errorText = await response.text(); // captura o texto da resposta
+      console.error("Resposta do servidor:", errorText);
+      throw new Error(`Erro ao criar doação: ${response.status} - ${errorText}`);
+    }
+
+    return await response.json();
   } catch (error) {
-    console.error("Erro ao criar doação:", error)
-    throw error
+    console.error("Erro ao criar doação (catch):", error);
+    throw error;
   }
-}
+};
+
 
 export const updateDonation = async (id: string, data: Partial<Donation>): Promise<Donation> => {
   try {

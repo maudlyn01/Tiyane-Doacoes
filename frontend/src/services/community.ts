@@ -20,7 +20,7 @@ const API_BASE_URL = (import.meta as any).env.VITE_API_URL || "http://localhost:
 
 export const getAllCommunities = async (): Promise<Community[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/communities`)
+    const response = await fetch(`${API_BASE_URL}/community`)
     if (!response.ok) throw new Error("Erro ao buscar comunidades")
     return await response.json()
   } catch (error) {
@@ -30,29 +30,32 @@ export const getAllCommunities = async (): Promise<Community[]> => {
 }
 
 export const createCommunity = async (
-  data: Omit<Community, "id" | "createdAt" | "updatedAt">
+  data: Omit<Community, "_id" | "id" | "createdAt" | "updatedAt">
 ): Promise<Community> => {
   try {
+    // Remove possíveis campos indesejados
+    const { _id, id, createdAt, updatedAt, ...cleanData } = data as any
+
     const response = await fetch(`${API_BASE_URL}/community`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(cleanData),
     });
 
     if (!response.ok) {
-      const errorText = await response.text(); // ← lê a resposta do servidor
-      console.error("Resposta do servidor:", errorText);
-      throw new Error(`Erro ao criar comunidade: ${response.status} - ${errorText}`);
+      const errorText = await response.text()
+      console.error("Resposta do servidor:", errorText)
+      throw new Error(`Erro ao criar comunidade: ${response.status} - ${errorText}`)
     }
 
-    return await response.json();
+    return await response.json()
   } catch (error) {
-    console.error("Erro ao criar comunidade (catch):", error);
-    throw error;
+    console.error("Erro ao criar comunidade (catch):", error)
+    throw error
   }
-};
+}
 
 export const updateCommunity = async (id: string, data: Partial<Community>): Promise<Community> => {
   try {

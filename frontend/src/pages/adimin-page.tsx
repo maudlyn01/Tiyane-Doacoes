@@ -1,12 +1,14 @@
-import ResumoCard from "./resumoCard"
+"use client"
+
+import ResumeCard from "../components/resume-card.tsx"
 import { useState, useEffect } from "react"
-import TabelaEntregas from "./tabledeliry"
+import DeliveryTable from "../components/delivery-table"
 import { getAllIntermediates, type Intermediate } from "../services/intermediate"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
-import { IntermediateModal } from "../components/adminModals/intermediate"
-import { CommunityModal } from "../components/adminModals/community"
-import { DonationModal } from "../components/adminModals/donation"
+import { IntermediateModal } from "../components/adminModals/intermediate.tsx"
+import { CommunityModal } from "../components/adminModals/community.tsx"
+import { DonationModal } from "../components/adminModals/donation.tsx"
 import { getAllCommunities, type Community } from "../services/community"
 import { getAllDonations, type Donation } from "../services/donations"
 import { Label } from "@/components/ui/label"
@@ -19,7 +21,7 @@ export const AdminPage = () => {
   const [communities, setCommunities] = useState<Community[]>([])
   const [donations, setDonations] = useState<Donation[]>([])
   const [openCommunities, setOpenCommunities] = useState(false)
-  const [openDonations, setOpenDonations] = useState(false)
+  const [openDonations, setOpenDonations] = useState(false)   
   const [statusFilter, setStatusFilter] = useState<string>("all")
 
   // Modal states
@@ -27,23 +29,20 @@ export const AdminPage = () => {
   const [isCommunityModalOpen, setIsCommunityModalOpen] = useState(false)
   const [isDonationModalOpen, setIsDonationModalOpen] = useState(false)
 
-useEffect(() => {
-  if (openRecipients && communities.length === 0) {
-    getAllCommunities().then((data: any) => {
-      // Log para depuração
-      console.log("Dado recebido da API de comunidades:", data);
-
-      // Lógica de verificação e definição dos dados
-      if (Array.isArray(data)) {
-        setCommunities(data);
-      } else if (data && Array.isArray((data as { communities?: Community[] }).communities)) {
-        setCommunities((data as { communities: Community[] }).communities);
-      } else {
-        setCommunities([]);
-      }
-    });
-  }
-}, [openRecipients, communities.length]);
+  useEffect(() => {
+    if (openRecipients && communities.length === 0) {
+      getAllCommunities().then((data: any) => {
+        console.log("Dado recebido da API de comunidades:", data)
+        if (Array.isArray(data)) {
+          setCommunities(data)
+        } else if (data && Array.isArray((data as { communities?: Community[] }).communities)) {
+          setCommunities((data as { communities: Community[] }).communities)
+        } else {
+          setCommunities([])
+        }
+      })
+    }
+  }, [openRecipients, communities.length])
 
   useEffect(() => {
     if (openAgents) {
@@ -55,7 +54,6 @@ useEffect(() => {
     }
   }, [openAgents])
 
-  // Busca comunidades quando abrir o accordion
   useEffect(() => {
     if (openCommunities) {
       const fetchCommunities = async () => {
@@ -66,7 +64,6 @@ useEffect(() => {
     }
   }, [openCommunities])
 
-  // Busca doações quando abrir o accordion
   useEffect(() => {
     if (openDonations) {
       const fetchDonations = async () => {
@@ -113,190 +110,180 @@ useEffect(() => {
   })
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-100 transition-colors duration-500">
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-100 transition-colors duration-500 p-4">
       {/* Navbar */}
-      <header className="bg-white text-black shadow p-4 flex justify-between items-center mb-6 rounded">
-        
-        <div className="flex gap-2 items-center justify-center">
-          <Button onClick={() => setIsIntermediateModalOpen(true)} className="bg-blue-600 hover:bg-blue-700">
-            <Plus className="w-4 h-4 mr-2" />
-            Novo Intermediário
+      <header className="bg-white text-black shadow p-4 flex flex-col sm:flex-row justify-between items-center mb-6 rounded gap-4">
+        <h1 className="text-xl font-bold">Painel Administrativo</h1>
+        <div className="flex flex-wrap gap-2 items-center justify-center">
+          <Button
+            onClick={() => setIsIntermediateModalOpen(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-xs sm:text-sm"
+          >
+            <Plus className="w-4 h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Novo </span>Intermediário
           </Button>
-          <Button onClick={() => setIsCommunityModalOpen(true)} className="bg-green-600 hover:bg-green-700">
-            <Plus className="w-4 h-4 mr-2" />
-            Nova Comunidade
+          <Button
+            onClick={() => setIsCommunityModalOpen(true)}
+            className="bg-green-600 hover:bg-green-700 text-xs sm:text-sm"
+          >
+            <Plus className="w-4 h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Nova </span>Comunidade
           </Button>
-          <Button onClick={() => setIsDonationModalOpen(true)} className="bg-purple-600 hover:bg-purple-700">
-            <Plus className="w-4 h-4 mr-2" />
-            Nova Doação
+          <Button
+            onClick={() => setIsDonationModalOpen(true)}
+            className="bg-purple-600 hover:bg-purple-700 text-xs sm:text-sm"
+          >
+            <Plus className="w-4 h-4 mr-1 sm:mr-2" />
+            <span className="hidden sm:inline">Nova </span>Doação
           </Button>
-          <button className="bg-red-600 text-white px-4 py-2 rounded ml-4">Logout</button>
         </div>
       </header>
 
       {/* Cards de Resumo */}
-      <div>
-        <h2 className="text-2xl font-semibold mb-4 text-blue-300">Resumo Geral</h2>
-        <p className="text-gray-300 mb-6">
+      <div className="mb-6">
+        <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-blue-300">Resumo Geral</h2>
+        <p className="text-gray-300 mb-6 text-sm sm:text-base">
           Aqui você pode visualizar o resumo das doações, entregas e agentes de campo.
         </p>
       </div>
-      <div className="grid grid-cols-3 md:grid-cols-3 gap-4 mb-6">
-        <ResumoCard
-          titulo="Total de Doacoes"
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <ResumeCard
+          titulo="Total de Doações"
           corValor="text-blue-300"
           cor="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-100 transition-colors duration-500"
           valor={donations.length}
         />
-        <ResumoCard
+        <ResumeCard
           titulo="Entregas Confirmadas"
-          corValor="text-yellow-300"
-          cor="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-100 transition-colors duration-500"
-          valor={donations.filter(d => d.status === "entregue").length}
-        />
-        <ResumoCard
-          titulo="Entregas Pendentes"
           corValor="text-green-300"
           cor="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-100 transition-colors duration-500"
-          valor={donations.filter(d => d.status === "pendente").length}
+          valor={donations.filter((d) => d.status === "entregue").length}
+        />
+        <ResumeCard
+          titulo="Entregas Pendentes"
+          corValor="text-yellow-300"
+          cor="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-gray-100 transition-colors duration-500"
+          valor={donations.filter((d) => d.status === "pendente").length}
         />
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6 mb-6">
-        {/* Accordion - Receptores */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {/* Accordion - Comunidades */}
         <div className="bg-white p-4 rounded shadow text-black">
           <button
-            onClick={() => setopenRecipients(!openRecipients)}
-            className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
+            onClick={() => setOpenCommunities(!openCommunities)}
+            className="w-full text-left text-base sm:text-lg font-semibold mb-2 text-blue-600 hover:underline"
           >
-            {openRecipients ? "▼ Receptores de Doações" : "▶ Receptores de Doações"}
+            {openCommunities ? "▼ Receptores de Doações" : "▶ Receptores de Doações"}
           </button>
 
-          {openRecipients && (
+          {openCommunities ? (
             <div>
-              <p className="text-gray-500 mb-4">
-                Lista de comunidades que receberam doações:
-              </p>
-              {communities.length === 0 ? (
-                <p>Nenhuma comunidade encontrada ou carregando...</p>
-              ) : (
+              <p className="text-gray-500 mb-4 text-sm">Lista de comunidades que receberam doações:</p>
+            
                 <div className="overflow-x-auto">
-                  <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+                  <table className="min-w-full bg-white border border-gray-200 rounded-lg text-sm">
                     <thead>
-                      <tr className="bg-gray-100 text-gray-600 uppercase text-sm leading-normal">
-                        <th className="py-3 px-6 text-left">Nome</th>
-                        <th className="py-3 px-6 text-left">Província</th>
-                        <th className="py-3 px-6 text-left">Distrito</th>
-                        <th className="py-3 px-6 text-right">População</th>
+                      <tr className="bg-gray-100 text-gray-600 uppercase text-xs leading-normal">
+                        <th className="py-2 px-3 text-left">Nome</th>
+                        <th className="py-2 px-3 text-left hidden sm:table-cell">Província</th>
+                        <th className="py-2 px-3 text-left hidden md:table-cell">Distrito</th>
+                        <th className="py-2 px-3 text-right">População</th>
                       </tr>
                     </thead>
-                    <tbody className="text-gray-700 text-sm">
+                    <tbody>
                       {communities.map((comunidade) => (
                         <tr
-                          key={comunidade._id || comunidade.name}
+                          key={comunidade.id || comunidade.name}
                           className="border-b border-gray-200 hover:bg-gray-50"
                         >
-                          <td className="py-3 px-6 text-left whitespace-nowrap font-semibold">
-                            {comunidade.name}
-                          </td>
-                          <td className="py-3 px-6 text-left">{comunidade.province}</td>
-                          <td className="py-3 px-6 text-left">{comunidade.district}</td>
-                          <td className="py-3 px-6 text-right">{comunidade.population}</td>
+                          <td className="py-2 px-3 text-left whitespace-nowrap font-semibold">{comunidade.name}</td>
+                          <td className="py-2 px-3 text-left hidden sm:table-cell">{comunidade.province}</td>
+                          <td className="py-2 px-3 text-left hidden md:table-cell">{comunidade.district}</td>
+                          <td className="py-2 px-3 text-right">{comunidade.population}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
+                </div>
+              ) : (
+                <div>
+                  <p className="text-gray-500 mb-4 text-sm">Lista de comunidades cadastrados no sistema.</p>
+                </div>
               )}
+            </div>
+            
+         
+
+        {/* Accordion - Agentes */}
+        <div className="bg-white p-4 rounded shadow text-black">
+          <button
+            onClick={() => setOpenAgents(!openAgents)}
+            className="w-full text-left text-base sm:text-lg font-semibold mb-2 text-blue-600 hover:underline"
+          >
+            {openAgents ? "▼ Agentes de Campo" : "▶ Agentes de Campo"}
+          </button>
+
+          {openAgents ? (
+            <div>
+              <p className="text-gray-500 mb-4 text-sm">Lista de agentes de campo e suas informações.</p>
+              <div className="overflow-x-auto">
+                <table className="min-w-full text-xs sm:text-sm text-left">
+                  <thead>
+                    <tr>
+                      <th className="p-2">Nome</th>
+                      <th className="p-2 hidden sm:table-cell">Telefone</th>
+                      <th className="p-2 hidden md:table-cell">Email</th>
+                      <th className="p-2">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {intermediates.map((item) => (
+                      <tr key={item.id} className="border-t">
+                        <td className="p-2">{item.name}</td>
+                        <td className="p-2 hidden sm:table-cell">{item.phone}</td>
+                        <td className="p-2 hidden md:table-cell">{item.email}</td>
+                        <td className="p-2">
+                          {item.isActive ? (
+                            <span className="bg-green-200 text-green-800 px-2 py-1 rounded text-xs">Ativo</span>
+                          ) : (
+                            <span className="bg-red-200 text-red-800 px-2 py-1 rounded text-xs">Inativo</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <p className="text-gray-500 mb-4 text-sm">Lista de Intermediários cadastrados no sistema.</p>
             </div>
           )}
         </div>
+      </div>
 
-        {/* Accordion - Agentes */}
-        {openAgents ? (
-          <div className="bg-white p-4 rounded shadow text-black">
-            <button
-              onClick={() => setOpenAgents(false)}
-              className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
-            >
-              ▼ Agentes de Campo
-            </button>
-            <div>
-              <p className="text-gray-500 mb-4">Lista de agentes de campo e suas informações.</p>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-sm text-left">
-                <thead>
-                  <tr>
-                    <th className="p-2">Nome</th>
-                    <th className="p-2">Telefone</th>
-                    <th className="p-2">Email</th>
-                    <th className="p-2">Comunidade</th>
-                    <th className="p-2">Províncias</th>
-                    <th className="p-2">Ativo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {intermediates.map((item) => (
-                    <tr key={item.id} className="border-t">
-                      <td className="p-2">{item.name}</td>
-                      <td className="p-2">{item.phone}</td>
-                      <td className="p-2">{item.email}</td>
-                      <td className="p-2">
-                        {item.communityId ? (
-                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                            {communities.find((c) => c.id === item.communityId)?.name || "N/A"}
-                          </span>
-                        ) : (
-                          <span className="text-xs text-gray-500">Não atribuída</span>
-                        )}
-                      </td>
-                      <td className="p-2 text-xs">{item.assignedProvinces.join(", ")}</td>
-                      <td className="p-2">
-                        {item.isActive ? (
-                          <span className="bg-green-200 text-green-800 px-2 py-1 rounded text-xs">Sim</span>
-                        ) : (
-                          <span className="bg-red-200 text-red-800 px-2 py-1 rounded text-xs">Não</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ) : (
-          <div className="bg-white p-4 rounded shadow text-black">
-            <button
-              onClick={() => setOpenAgents(true)}
-              className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
-            >
-              ▶ Agentes de Campo
-            </button>
-             <div>
-              <p className="text-gray-500 mb-4">Lista de Intermediários cadastrados no sistema.</p>
-            </div>
-          </div>
-        )}
+      {/* Doações Section */}
+      <div className="bg-white p-4 rounded shadow text-black mb-6">
+        <button
+          onClick={() => setOpenDonations(!openDonations)}
+          className="w-full text-left text-base sm:text-lg font-semibold mb-2 text-blue-600 hover:underline"
+        >
+          {openDonations ? "▼ Doações" : "▶ Doações"}
+        </button>
 
-        {/* Accordion - Doações */}
-        {openDonations ? (
-          <div className="bg-white p-4 rounded shadow text-black">
-            <button
-              onClick={() => setOpenDonations(false)}
-              className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
-            >
-              ▼ Doações
-            </button>
-            <div>
-              <p className="text-gray-500 mb-4">Lista de doações registradas no sistema.</p>
-            </div>
+        {openDonations && (
+          <div>
+            <p className="text-gray-500 mb-4 text-sm">Lista de doações registradas no sistema.</p>
 
-            {/* Adicionar filtro de status */}
             <div className="mb-4">
-              <Label htmlFor="statusFilter">Filtrar por Status:</Label>
+              <Label htmlFor="statusFilter" className="text-sm">
+                Filtrar por Status:
+              </Label>
               <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value)}>
-                <SelectTrigger className="w-48">
+                <SelectTrigger className="w-full sm:w-48">
                   <SelectValue placeholder="Todos os status" />
                 </SelectTrigger>
                 <SelectContent>
@@ -308,21 +295,20 @@ useEffect(() => {
             </div>
 
             <div className="overflow-x-auto">
-              <table className="min-w-full text-sm text-left">
+              <table className="min-w-full text-xs sm:text-sm text-left">
                 <thead>
                   <tr>
                     <th className="p-2">Campanha</th>
-                    <th className="p-2">Organização</th>
+                    <th className="p-2 hidden sm:table-cell">Organização</th>
                     <th className="p-2">Status</th>
-                    <th className="p-2">Código</th>
-                    <th className="p-2">Entrega</th>
+                    <th className="p-2 hidden md:table-cell">Código</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredDonations.map((donation) => (
                     <tr key={donation.id} className="border-t">
                       <td className="p-2">{donation.campaignName}</td>
-                      <td className="p-2">{donation.sourceOrganization}</td>
+                      <td className="p-2 hidden sm:table-cell">{donation.sourceOrganization}</td>
                       <td className="p-2">
                         <span
                           className={`px-2 py-1 rounded text-xs ${
@@ -334,26 +320,11 @@ useEffect(() => {
                           {donation.status === "entregue" ? "Entregue" : "Pendente"}
                         </span>
                       </td>
-                      <td className="p-2 font-mono text-xs">{donation.trackingCode}</td>
-                      <td className="p-2 text-xs">
-                        {new Date(donation.estimatedDeliveryDate).toLocaleDateString("pt-BR")}
-                      </td>
+                      <td className="p-2 font-mono text-xs hidden md:table-cell">{donation.trackingCode}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-            </div>
-          </div>
-        ) : (
-          <div className="bg-white p-4 rounded shadow text-black">
-            <button
-              onClick={() => setOpenDonations(true)}
-              className="w-full text-left text-lg font-semibold mb-2 text-blue-600 hover:underline"
-            >
-              ▶ Doações
-            </button>
-            <div>
-              <p className="text-gray-500 mb-4">Lista de doações registradas no sistema.</p>
             </div>
           </div>
         )}
@@ -361,8 +332,8 @@ useEffect(() => {
 
       {/* Tabela de Entregas */}
       <div className="bg-white p-4 rounded shadow text-black">
-        <h2 className="text-lg font-semibold mb-2">Histórico de Entregas</h2>
-        <TabelaEntregas />
+        <h2 className="text-base sm:text-lg font-semibold mb-2">Histórico de Entregas</h2>
+        <DeliveryTable />
       </div>
 
       {/* Modals */}

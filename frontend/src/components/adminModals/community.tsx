@@ -51,7 +51,7 @@ export const CommunityModal = ({ isOpen, onClose, onSuccess }: CommunityModalPro
     setLoading(true)
 
     try {
-      await createCommunity({ ...formData, _id: "" })
+      await createCommunity({ ...formData })
       toast.success("Comunidade criada com sucesso!")
       setFormData({
         name: "",

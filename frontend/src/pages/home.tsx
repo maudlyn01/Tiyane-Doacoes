@@ -14,7 +14,7 @@ export const Home = () => {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-slate-900 via-purple-900 text-gray-100 dark:from-slate-900 dark:via-purple-900 dark:to-slate-900 dark:text-gray-100 selection:bg-teal-500 selection:text-white transition-colors duration-500">
       
       <div className="text-center mt-10">
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-cyan-400 via-blue-600 to-pink-400 text-transparent bg-clip-text">
+        <h1 className="text-xl sm:text-5xl md:text-6xl font-extrabold mb-6 bg-gradient-to-r from-cyan-400 via-blue-600 to-pink-400 text-transparent bg-clip-text">
           Tiyane Doações
         </h1>
         <p className="text-gray-400">
@@ -98,7 +98,7 @@ export const Home = () => {
             },
             {
               img: "/src/images/images (3).jpg",
-              title: "Redes que Salvam Vidas",
+              title: "Redes Mosquiteiras",
               desc: "Protegendo crianças da malária e outras doenças transmitidas por mosquitos.",
             },
             {
