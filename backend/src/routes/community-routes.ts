@@ -6,11 +6,11 @@ import {
   updateCommunity,
   deleteCommunity,
 } from "../controllers/community-controller"
-import { authenticationToken, authorizeRole } from "../middleware/auth-middleware"
+//import { authenticationToken} from "../middleware/auth-middleware"
 
 const router = Router()
 
-router.use(authenticationToken)
+//router.use(authenticationToken)
 
 router.get("/", getAllCommunities)
 router.get("/:id", getCommunityById)
